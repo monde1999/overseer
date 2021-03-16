@@ -3,5 +3,7 @@ from . import views
 
 app_name='report'
 urlpatterns = [
-    #path('communities',views.CommunitiesView.as_view(),name="communities_view"),
+    path('api-view/',views.apiOverview,name="api_view"),
+    path('create-user/',views.createUser,name="create_user_view"),
+    path('create-report/',views.createReport,name="create_report_view"),
 ]

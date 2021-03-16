@@ -4,9 +4,12 @@ from datetime import datetime
 
 class Report(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL,null=True)
+    description = models.TextField(null=True,blank=True)
+    floodLevel = models.IntegerField()
     location = models.TextField()
     timestamp = models.DateTimeField(default = datetime.now)
-    image = models.ImageField()
+    image = models.ImageField(null = True, blank = True)
 
-
+    class Meta:
+        db_table='report'
 
