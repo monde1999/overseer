@@ -19,6 +19,8 @@ class FloodProneArea(models.Model):
 class Weather(models.Model):
     w_id = models.IntegerField(default=0)
     w_temp = models.FloatField(default=0)
+    w_description = models.TextField()
+    w_icon = models.CharField(max_length=3)
 
     def __str__(self):
         return str(self.w_id) + ", " + str(self.w_temp)
