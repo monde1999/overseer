@@ -72,7 +72,8 @@ class ReportViewSet(viewsets.ModelViewSet):
             w_temp = data['main']['temp']
             w_desc = data['weather'][0]['description']
             w_icon = data['weather'][0]['icon']
-            w = Weather(w_id=w_id, w_temp=w_temp, w_description=w_desc, w_icon=w_icon).save()
+            w = Weather(w_id=w_id, w_temp=w_temp, w_description=w_desc, w_icon=w_icon)
+            w.save()
 
             FloodForecast(location=fpa, weather=w).save()
 
