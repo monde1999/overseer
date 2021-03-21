@@ -21,6 +21,8 @@ class FloodForecastViewSet(viewsets.ModelViewSet):
         longitude = self.request.query_params.get('longitude', None)
         if (latitude is None or longitude is None):
             return self.queryset
+        latitude = float(latitude)
+        longitude = float(longitude)
         r = 5
         lat_min = latitude-r
         lat_max = latitude+r
