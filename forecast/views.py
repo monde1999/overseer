@@ -17,8 +17,10 @@ class FloodForecastViewSet(viewsets.ModelViewSet):
     # permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        latitude = 92 #self.request.query_params.get('latitude', None)
-        longitude = 28 #self.request.query_params.get('longitude', None)
+        latitude = self.request.query_params.get('latitude', None)
+        longitude = self.request.query_params.get('longitude', None)
+        if (latitude is None or longitude is None):
+            return self.queryset
         r = 5
         lat_min = latitude-r
         lat_max = latitude+r
