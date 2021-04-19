@@ -22,4 +22,5 @@ urlpatterns = [
     path('report/', include('report.urls'), name="report"),
     path('learn/', include('learn.urls')),
     path('account/', include('account.urls')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
