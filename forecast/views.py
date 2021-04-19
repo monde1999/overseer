@@ -8,7 +8,8 @@ from django.utils import timezone
 import requests
 import json
 
-from forecast.models import FloodForecast, Weather, FloodProneArea, Report
+from forecast.models import FloodForecast, Weather, FloodProneArea #, Report
+from report.models import Report
 from forecast.serializers import FloodForecastSerializer, WeatherSerializer, FloodProneAreaSerializer, ReportSerializer
 
 class FloodForecastViewSet(viewsets.ModelViewSet):

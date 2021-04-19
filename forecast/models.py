@@ -33,12 +33,12 @@ class FloodForecast(models.Model):
     def __str__(self):
         return str(self.location)
 
-class Report(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL,null=True)
-    locationX = models.FloatField()
-    locationY = models.FloatField()
-    timestamp = models.DateTimeField(default = datetime.now)
-    image = models.ImageField(blank=True)
+# class Report(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.SET_NULL,null=True)
+#     locationX = models.FloatField()
+#     locationY = models.FloatField()
+#     timestamp = models.DateTimeField(default = datetime.now)
+#     image = models.ImageField(blank=True)
 
-    def __str__(self):
-        return str(self.locationX) + ", " + str(self.locationY)
+#     def __str__(self):
+#         return str(self.locationX) + ", " + str(self.locationY) 

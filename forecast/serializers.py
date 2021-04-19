@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from forecast.models import FloodForecast, Weather, FloodProneArea, Report
+from forecast.models import FloodForecast, Weather, FloodProneArea #, Report
+from report.models import Report
 from django.contrib.auth.models import User
 
 class ReportSerializer(serializers.HyperlinkedModelSerializer):
