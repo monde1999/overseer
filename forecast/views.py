@@ -61,7 +61,9 @@ class ReportViewSet(viewsets.ModelViewSet):
         locY = post_data['locationY']
         ts = post_data['timestamp']
         img = post_data['image']
-        obj = Report(user=user, locationX=locX, locationY=locY,timestamp=ts,image=img)
+        description = post_data['description']
+        floodLevel = post_data['floodLevel']
+        obj = Report(user=user, locationX=locX, locationY=locY,timestamp=ts,image=img, description=description, floodLevel=floodLevel)
         obj.save()
         q = FloodProneArea.objects.filter(locationX=locX,locationY=locY)
         if q.count()==0:
