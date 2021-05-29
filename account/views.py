@@ -26,7 +26,7 @@ class UserViewSet(viewsets.ModelViewSet):
         flag = 'false'
         if usr != '' and pw != '': # validation here
             new_user = User(username=usr,first_name=fname, last_name=lname, email=email)
-            if user is not None:
+            if new_user is not None:
                 new_user.set_password(pw)
                 new_user.save()
                 flag = 'true'
