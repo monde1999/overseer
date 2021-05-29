@@ -16,6 +16,27 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.none()
     serializer_class = UserSerializer
 
+    def create(self, request):
+        usr = request.POST['username']
+        pw = request.POST['password']
+        fname = request.POST['first_name']
+        lname = request.POST['last_name']
+        email = request.POST['email']
+
+        flag = 'false'
+        if usr != '' and pw != '': # validation here
+            new_user = User(username=usr,first_name=fname, last_name=lname, email=email)
+            new_user.set_password(pw)
+            new_user.save()
+            flag = 'true'
+        
+        context = {
+            'flag': flag
+        }
+
+        return Response(context)
+
+
 
 @api_view(["POST"])
 def login(request):
