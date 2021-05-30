@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from django.contrib.auth.models import User
-from .serializers import UserSerializer
+# from .serializers import UserSerializer
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -12,34 +12,34 @@ from django.contrib.auth import login, authenticate
 from rest_framework.status import HTTP_401_UNAUTHORIZED
 from rest_framework.decorators import api_view
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.none()
-    serializer_class = UserSerializer
+# class UserViewSet(viewsets.ModelViewSet):
+#     queryset = User.objects.none()
+#     serializer_class = UserSerializer
 
-    def create(self, request):
-        usr = request.POST['username']
-        pw = request.POST['password']
-        fname = request.POST['first_name']
-        lname = request.POST['last_name']
-        email = request.POST['email']
+@api_view(["POST"])
+def signup(request):
+    usr = request.data.get('username')
+    pw = request.data.get('password')
+    fname = request.data.get('firstName')
+    lname = request.data.get('lastName')
+    # email = request.data.get('email')
 
-        flag = 'false'
-        new_user = None
-        if usr != '' and pw != '': # validation here
-            queryset = User.objects.filter(username=usr)
-            if (len(queryset)==0):
-                new_user = User(username=usr,first_name=fname, last_name=lname, email=email)
-            if new_user is not None:
-                new_user.set_password(pw)
-                new_user.save()
-                flag = 'true'
-        
-        context = {
-            'flag': flag
-        }
+    flag = 'false'
+    new_user = None
+    if usr != '' and pw != '': # validation here
+        queryset = User.objects.filter(username=usr)
+        if (len(queryset)==0):
+            new_user = User(username=usr,first_name=fname, last_name=lname)
+        if new_user is not None:
+            new_user.set_password(pw)
+            new_user.save()
+            flag = 'true'
+    
+    context = {
+        'flag': flag
+    }
 
-        return Response(context)
-
+    return Response(context)
 
 
 @api_view(["POST"])
