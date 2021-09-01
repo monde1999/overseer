@@ -28,7 +28,16 @@ def createReport(request):
     reportSerializer=ReportSerializer(data=request.data)
     if reportSerializer.is_valid():
         reportSerializer.save()
-    
+    else:
+        d = reportSerializer.data
+        print(d['image'])
+        print('no_image' in d['image'].__str__())
+        if 'no_image' in d['image'].__str__():
+            print('okay na')
+            try:
+                r = Report(user = User.objects.get(id = d['user']),description = d['description'], floodLevel = d['floodLevel'], location = d['location'], image = None).save()
+            except:
+                pass
     return Response(reportSerializer.data)
 
 
