@@ -24,7 +24,8 @@ def createUser(request):
 @api_view(['POST'])
 @parser_classes([MultiPartParser])
 def createReport(request):
-
+    #manually add data later
+    
     reportSerializer=ReportSerializer(data=request.data)
     if reportSerializer.is_valid():
         reportSerializer.save()

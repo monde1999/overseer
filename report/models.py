@@ -6,8 +6,8 @@ class Report(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL,null=True)
     description = models.TextField(null=True,blank=True)
     floodLevel = models.IntegerField()
-    locationX = models.FloatField()
-    locationY = models.FloatField()
+    latitude = models.FloatField()
+    longitute = models.FloatField()
     timestamp = models.DateTimeField(default = datetime.now)
 
     class Meta:
