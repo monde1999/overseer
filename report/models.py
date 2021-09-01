@@ -8,7 +8,13 @@ class Report(models.Model):
     floodLevel = models.IntegerField()
     location= models.TextField()
     timestamp = models.DateTimeField(default = datetime.now)
-    image = models.ImageField(null = True, blank = True)
 
     class Meta:
         db_table='report'
+
+class Report_Images(models.Model):
+    image = models.ImageField()
+    report = models.ForeignKey(Report, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'report_images'
