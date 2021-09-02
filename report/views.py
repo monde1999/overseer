@@ -1,8 +1,10 @@
+from report.models import Report_Image
 from django.shortcuts import render
 from rest_framework.decorators import api_view,parser_classes
 from rest_framework.response import Response
 from .serializers import *
 from rest_framework.parsers import MultiPartParser
+from django.core.files import File
 
 @api_view(['GET'])
 def apiOverview(request):
@@ -24,23 +26,22 @@ def createUser(request):
 @api_view(['POST'])
 @parser_classes([MultiPartParser])
 def createReport(request):
-    #manually add data later
+
+    r = Report(user = User.objects.get(id = request.POST['user']),
+    description = request.POST['description'], 
+    floodLevel = request.POST['floodLevel'],
+    latitude = request.POST['latitude'],
+    longitude = request.POST['longitude'])
     
-    print(request.data)
+    r.save()
     
-    # reportSerializer=ReportSerializer(data=request.data)
-    # if reportSerializer.is_valid():
-    #     reportSerializer.save()
-    # else:
-    #     d = reportSerializer.data
-    #     print(d['image'])
-    #     print('no_image' in d['image'].__str__())
-    #     if 'no_image' in d['image'].__str__():
-    #         print('okay na')
-    #         try:
-    #             r = Report(user = User.objects.get(id = d['user']),description = d['description'], floodLevel = d['floodLevel'], location = d['location'], image = None).save()
-    #         except:
-    #             pass
-    return Response("Wala ra")
+    print(request.FILES.getlist('ReportImages'))
+
+    if request.FILES.get('ReportImages') is not None:
+        for image in request.FILES.getlist('ReportImages'):
+            file = File(image)
+            Report_Image(image = File(image), report = r).save()
+
+    return Response("Success")
 
 

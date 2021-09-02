@@ -7,13 +7,13 @@ class Report(models.Model):
     description = models.TextField(null=True,blank=True)
     floodLevel = models.FloatField()
     latitude = models.FloatField()
-    longitute = models.FloatField()
+    longitude = models.FloatField()
     timestamp = models.DateTimeField(default = datetime.now)
 
     class Meta:
         db_table='report'
 
-class Report_Images(models.Model):
+class Report_Image(models.Model):
     image = models.ImageField()
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
 
