@@ -1,4 +1,4 @@
-from report.models import Report_Image
+from report.models import Reaction, Report_Image
 from django.shortcuts import render
 from rest_framework.decorators import api_view,parser_classes
 from rest_framework.response import Response
@@ -43,5 +43,16 @@ def createReport(request):
             Report_Image(image = File(image), report = r).save()
 
     return Response("Success")
+
+@api_view(['POST'])
+def reactToReport(request):
+
+    report = Report.objects.get(id = request.data['report'])
+    user = User.objects.get(id = request.data['user'])
+    isPositive = request.data['isPositive']
+
+    Reaction(report=report,user=user,isPositive=isPositive).save()
+
+    return Response(request.data)
 
 
