@@ -25,7 +25,7 @@ def createUser(request):
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser])
-def createReport(request):
+def saveReport(request):
 
     r = Report(user = User.objects.get(id = request.POST['user']),
     description = request.POST['description'], 
