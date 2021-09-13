@@ -46,6 +46,8 @@ def saveReport(request):
 
 @api_view(['POST'])
 def reactToReport(request):
+    
+    print(request.POST)
 
     report = Report.objects.get(id = request.data['report'])
     user = User.objects.get(id = request.data['user'])
