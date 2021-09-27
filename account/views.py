@@ -28,6 +28,7 @@ def signup(request):
 
     flag = 'false'
     new_user = None
+    id = -1
     token_key=''
     if usr != '' and pw != '': # validation here
         queryset = User.objects.filter(username=usr)
@@ -36,13 +37,15 @@ def signup(request):
         if new_user is not None:
             new_user.set_password(pw)
             new_user.save()
+            id = new_user.id
             flag = 'true'
             token:Token = Token.objects.create(user=new_user)
             token_key = token.key
     
     context = {
         'flag': flag,
-        'token': token_key
+        'token': token_key,
+        'id' : id
     }
 
     return Response(context)
@@ -53,18 +56,33 @@ def login(request):
     token_key = ''
     username = request.data.get("username")
     password = request.data.get("password")
-    f = authenticate(request, username=username, password=password)  
+    print(request.data,username,password)
+    f = authenticate(request,username = username, password = password)
     flag = 'false'
-    if f is not None:   
+    firstName = None
+    lastName = None
+    id = -1
+    print("F: ",f)
+    if f:
+        user = User.objects.get(username = username)   
         flag = 'true'
         token_key = Token.objects.get_or_create(user=f)[0].key
+        username = user.username
+        firstName = user.first_name
+        lastName = user.last_name
+        id = user.id
     else:
         queryset = User.objects.filter(username=username)
         if len(queryset) > 0:
             flag = 'wrong_password'
+        username=None
     content = {
         'flag': flag,
-        'token':token_key
+        'token':token_key,
+        'username' : username,
+        'firstName' : firstName,
+        'lastName' : lastName,
+        'id' :id, 
     }
     return Response(content)
     
