@@ -26,27 +26,30 @@ def signup(request):
     lname = request.data.get('lastName')
     # email = request.data.get('email')
 
-    flag = 'false'
+    print(request.data)
+    isEmailUnique = False
     new_user = None
     id = -1
     token_key=''
     if usr != '' and pw != '': # validation here
-        queryset = User.objects.filter(username=usr)
-        if (len(queryset)==0):
-            new_user = User(username=usr,first_name=fname, last_name=lname)
+        isExisting = User.objects.filter(username=usr).exists()
+        print('isExisting: ',isExisting)
+        if not isExisting:
+            new_user = User(username=usr,first_name=fname, last_name=lname,email=usr)
+            isEmailUnique = True
         if new_user is not None:
             new_user.set_password(pw)
             new_user.save()
             id = new_user.id
-            flag = 'true'
             token:Token = Token.objects.create(user=new_user)
             token_key = token.key
     
     context = {
-        'flag': flag,
+        'isEmailUnique':isEmailUnique,
         'token': token_key,
         'id' : id
     }
+    print(context)
 
     return Response(context)
 
@@ -58,7 +61,8 @@ def login(request):
     password = request.data.get("password")
     print(request.data,username,password)
     f = authenticate(request,username = username, password = password)
-    flag = 'false'
+    isUserNameCorrect = False
+    isPasswordCorrect = False
     firstName = None
     lastName = None
     id = -1
@@ -71,13 +75,19 @@ def login(request):
         firstName = user.first_name
         lastName = user.last_name
         id = user.id
+        isUserNameCorrect = True
+        isPasswordCorrect = True
     else:
         queryset = User.objects.filter(username=username)
         if len(queryset) > 0:
-            flag = 'wrong_password'
+            isUserNameCorrect = True
+        else:
+            isUserNameCorrect = False
+        
         username=None
     content = {
-        'flag': flag,
+        'isUserNameCorrect': isUserNameCorrect,
+        'isPasswordCorrect' : isPasswordCorrect,
         'token':token_key,
         'username' : username,
         'firstName' : firstName,
